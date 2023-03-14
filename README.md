@@ -48,7 +48,7 @@ It is only tested in Windows for now, but will also be developed for Linux and m
 * Several peripherals (like ADC, SPI, I2C...)
 * Arduino IDE packaging
 
-## Prequisites
+## Prerequisites
 
 * [xPack GNU RISC-V Embedded GCC v12.2.0-3](https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/)
   * `toolchain.path` in `platform.txt` must be changed if your path is different

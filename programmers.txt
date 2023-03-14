@@ -1,0 +1,9 @@
+wchlinke.name=WCH-LinkE
+wchlinke.communication=USB
+wchlinke.protocol=
+wchlinke.program.protocol=
+wchlinke.program.tool=minichlink
+wchlinke.program.tool.default=minichlink
+wchlinke.program.extra_params=
+wchlinke.program.pattern_args=-w "{build.path}/{build.project_name}.bin" -b
+wchlinke.program.pattern="{path}/{cmd}" {upload.pattern_args}

@@ -1,0 +1,5 @@
+-nostartfiles
+-Xlinker
+--gc-sections
+--specs=nano.specs
+-g

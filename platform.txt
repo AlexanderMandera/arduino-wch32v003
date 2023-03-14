@@ -1,0 +1,115 @@
+# Arduino WCH Core for CH32V003 RISC-V Boards
+
+name=WCH CH32V003 Boards
+version=0.0.1
+
+# Tools
+tools.minichlink.path={runtime.platform.path}/tools/minichlink
+tools.minichlink.cmd=minichlink
+tools.minichlink.cmd.windows=minichlink.exe
+
+# Compiler
+
+compiler.warning_flags=-w
+compiler.warning_flags.none=-w
+compiler.warning_flags.default=
+compiler.warning_flags.more=-Wall
+compiler.warning_flags.all=-Wall -Wextra
+
+toolchain.path=C:\SysGCC\xpack-riscv-none-elf-gcc-12.2.0-3\
+compiler.path={toolchain.path}bin\
+compiler.c.cmd={build.crossprefix}gcc
+compiler.c.flags=-g -Os -flto -ffunction-sections -static-libgcc -lgcc -march=rv32ec -misa-spec=2.2 -mabi=ilp32e -I/usr/include/newlib -nostdlib -DTINYVECTOR
+compiler.c.elf.cmd={build.crossprefix}g++
+compiler.c.elf.flags=-Wl,--gc-sections {compiler.warning_flags} -Wl,--as-needed -march=rv32ec -misa-spec=2.2 -mabi=ilp32e
+compiler.S.cmd={build.crossprefix}g++
+compiler.S.flags=-c -x assembler-with-cpp -march=rv32ec -misa-spec=2.2 -mabi=ilp32e
+compiler.cpp.cmd={build.crossprefix}g++
+compiler.cpp.flags=-g -Os -flto -ffunction-sections -static-libgcc -lgcc -march=rv32ec -misa-spec=2.2 -mabi=ilp32e -I/usr/include/newlib -nostdlib -DTINYVECTOR -fno-rtti
+compiler.ar.cmd={build.crossprefix}ar
+compiler.ar.flags=rcs
+compiler.objcopy.cmd=
+compiler.objcopy.eep.flags=
+compiler.elf2hex.bin.flags=-O binary
+compiler.elf2hex.hex.flags=-O ihex -R .eeprom
+compiler.elf2hex.cmd={build.crossprefix}objcopy
+compiler.ldflags=
+compiler.libraries.ldflags=
+compiler.size.cmd={build.crossprefix}size
+compiler.define=-DARDUINO=
+
+# this can be overriden in boards.txt
+build.extra_flags=
+build.extra_ldflags=
+compiler.wch=
+
+# These can be overridden in platform.local.txt
+compiler.c.extra_flags="-I{build.core.path}/" "-I{build.core.path}/ch32v003fun/"
+compiler.cpp.extra_flags="-I{build.core.path}/" "-I{build.core.path}/ch32v003fun/"
+compiler.c.elf.extra_flags=
+compiler.S.extra_flags=
+
+compiler.ar.extra_flags=
+compiler.objcopy.eep.extra_flags=
+compiler.elf2hex.extra_flags=
+
+# {build.library_discovery_phase} is set to 1 by the builder during library discovery.
+# (this is available since arduino-builder>=1.5.5, keeping the default here for backward compatiblity)
+build.library_discovery_phase=0
+build.library_discovery_phase_flag=-DARDUINO_LIBRARY_DISCOVERY_PHASE={build.library_discovery_phase}
+
+# USB Flags
+# ---------
+build.usb_flags=
+
+# Default usb manufacturer will be replaced at compile time using
+# numeric vendor ID if available or by board's specific value.
+#build.usb_manufacturer="Unknown"
+
+build.zip.pattern={recipe.size.pattern}
+
+# Linux compile patterns
+# -----------------------
+
+## Compile c files
+recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" -c "{source_file}" -o "{object_file}" {compiler.c.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} -DARDUINO_ARCH_WCH {build.extra_flags} {build.extra_ldflags} {compiler.c.extra_flags} "-I{build.core.path}/api/deprecated" "-I{build.core.path}/api/deprecated-avr-comp" {includes} "-iprefix{build.core.path}" "@{compiler.wch.includes}"
+
+## Compile c++ files
+recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" -c "{source_file}" -o "{object_file}" {compiler.cpp.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} -DARDUINO_ARCH_WCH {build.extra_flags} {build.extra_ldflags} {compiler.c.extra_flags} "-I{build.core.path}/api/deprecated" "-I{build.core.path}/api/deprecated-avr-comp" {includes} "-iprefix{build.core.path}" "@{compiler.wch.includes}"
+
+## Compile asm files
+recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} -DARDUINO_ARCH_WCH {includes} {build.extra_flags} {build.extra_ldflags} {compiler.cpp.extra_flags} "-I{build.core.path}/api/deprecated" "-I{build.core.path}/api/deprecated-avr-comp" "-iprefix{build.core.path}" "@{compiler.wch.includes}" "{source_file}" -o "{object_file}"
+
+## Create archives
+recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
+
+## Preprocess linker script
+recipe.hooks.linking.prelink.1.pattern="{compiler.path}{compiler.c.elf.cmd}" -E -P -x c {build.extra_ldflags} "{build.core.path}/ch32v003fun/ch32v003fun.ld" -o "{build.path}/build.ldscript"
+
+## Combine gc-sections, archives, and objects
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" "-L{build.path}" {object_files} "-T{build.path}/build.ldscript" -Wl,--whole-archive "{build.path}/{archive_file}" {compiler.wch} -Wl,--no-whole-archive -o "{build.path}/{build.project_name}.elf" -Wl,--gc-sections -fno-rtti -march=rv32ec -misa-spec=2.2 -mabi=ilp32e -I/usr/include/newlib -nostdlib -static-libgcc -lgcc
+
+## Create eeprom
+recipe.objcopy.eep.pattern=
+
+## Create output (bin file)
+recipe.objcopy.bin.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.bin.flags} {compiler.elf2hex.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.bin"
+
+## Create output (hex file)
+recipe.objcopy.hex.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.hex.flags} {compiler.elf2hex.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.hex"
+
+## Compute size
+recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A "{build.path}/{build.project_name}.elf"
+recipe.size.regex.data=^(?:\.data|\.bss)\s+([0-9]+).*
+recipe.size.regex=^(?:\.data|\.text|\.rodata)\S*?\s+([0-9]+).*
+
+## Save hex
+recipe.output.tmp_file={build.project_name}.bin
+recipe.output.save_file={build.project_name}.{build.variant}.bin
+
+# MiniCHLink
+tools.minichlink.upload.protocol=usb
+tools.minichlink.upload.params.verbose=
+tools.minichlink.upload.params.quiet=
+tools.minichlink.upload.pattern_args=-w "{build.path}/{build.project_name}.bin" flash -b
+tools.minichlink.upload.pattern="{path}/{cmd}" {upload.pattern_args}

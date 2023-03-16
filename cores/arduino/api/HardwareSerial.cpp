@@ -17,16 +17,16 @@ void HardwareSerial::begin(unsigned long baud, uint16_t config) {
     GPIOD->CFGLR &= ~(0xf<<(4*6));
     GPIOD->CFGLR |= (GPIO_CNF_IN_FLOATING)<<(4*6);
 
-    USART1->CTLR1 = USART_WordLength_8b | USART_Parity_No | USART_Mode_Rx | USART_Mode_Tx;
+    USART1->CTLR1 = USART_WordLength_8b | USART_Parity_No | USART_Mode_Tx;
     USART1->CTLR2 = USART_StopBits_1;
     USART1->CTLR3 = USART_HardwareFlowControl_None;
 
     USART1->BRR = UART_BRR;
-    USART1->CTLR1 |= USART_FLAG_RXNE;
+    //USART1->CTLR1 |= USART_FLAG_RXNE;
 
     // Enable Interrupt
-    NVIC->IPRIOR[USART1_IRQn] = (0 << 7) | 0x05;
-    NVIC->IENR[USART1_IRQn >> 0x05] = 1 << (USART1_IRQn & 0x1F);
+    //NVIC->IPRIOR[USART1_IRQn] = (0 << 7) | 0x05;
+    //NVIC->IENR[USART1_IRQn >> 0x05] = 1 << (USART1_IRQn & 0x1F);
 
     // Enable UART
     USART1->CTLR1 |= CTLR1_UE_Set;
@@ -65,19 +65,12 @@ size_t HardwareSerial::write(uint8_t c) {
     return 1;
 }
 
-size_t HardwareSerial::write(const uint8_t *buffer, size_t size) {
-    for(int i = 0; i < size; i++) {
-        while( !(USART1->STATR & USART_FLAG_TC));
-        USART1->DATAR = *buffer++;
-    }
-    return size;
-}
-
 HardwareSerial::operator bool() {
     return true;
 }
 
-void USART1_IRQHandler() {
+// Removed IRQ handler for testing
+/*void USART1_IRQHandler() {
     if(USART1->STATR & USART_FLAG_RXNE) {
         // Write into buffer
         rxBufferTail = (rxBufferTail + 1) % RX_BUFFER_SIZE;
@@ -90,4 +83,4 @@ void USART1_IRQHandler() {
 
         rxBuffer[rxBufferTail] = USART1->DATAR & (uint16_t)0x01FF;
     }
-}
+}*/

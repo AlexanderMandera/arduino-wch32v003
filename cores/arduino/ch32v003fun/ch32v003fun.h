@@ -13,6 +13,7 @@
  *******************************************************************************/
 #define SYSTEM_CORE_CLOCK 48000000
 #define APB_CLOCK SYSTEM_CORE_CLOCK
+#define STDOUT_UART 1
 
 /*
  * NOTE: This file modified by CNLohr to be fully-header-only.
@@ -4843,7 +4844,7 @@ void SystemInitHSEPLL( int HSEBYP );
 void InterruptVector();
 
 
-#define UART_BAUD_RATE 9600
+#define UART_BAUD_RATE 115200
 #define OVER8DIV 4
 #define INTEGER_DIVIDER (((25 * (APB_CLOCK)) / ((OVER8DIV) * (UART_BAUD_RATE))))
 #define FRACTIONAL_DIVIDER ((INTEGER_DIVIDER)%100)

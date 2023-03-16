@@ -853,31 +853,31 @@ void SystemInitHSEPLL( int HSEBYP )
 
 void SetupUART( int uartBRR )
 {
-	// Enable GPIOD and UART.
-	RCC->APB2PCENR |= RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1;
+    // Enable GPIOD and UART.
+    RCC->APB2PCENR |= RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1;
 
-	// Push-Pull, 10MHz Output, GPIO D5, with AutoFunction
-	GPIOD->CFGLR &= ~(0xf<<(4*5));
-	GPIOD->CFGLR |= (GPIO_Speed_10MHz | GPIO_CNF_OUT_PP_AF)<<(4*5);
-	
-	// 115200, 8n1.  Note if you don't specify a mode, UART remains off even when UE_Set.
-	USART1->CTLR1 = USART_WordLength_8b | USART_Parity_No | USART_Mode_Tx;
-	USART1->CTLR2 = USART_StopBits_1;
-	USART1->CTLR3 = USART_HardwareFlowControl_None;
+    // Push-Pull, 10MHz Output, GPIO D5, with AutoFunction
+    GPIOD->CFGLR &= ~(0xf<<(4*5));
+    GPIOD->CFGLR |= (GPIO_Speed_10MHz | GPIO_CNF_OUT_PP_AF)<<(4*5);
 
-	USART1->BRR = uartBRR;
-	USART1->CTLR1 |= CTLR1_UE_Set;
+    // 115200, 8n1.  Note if you don't specify a mode, UART remains off even when UE_Set.
+    USART1->CTLR1 = USART_WordLength_8b | USART_Parity_No | USART_Mode_Tx;
+    USART1->CTLR2 = USART_StopBits_1;
+    USART1->CTLR3 = USART_HardwareFlowControl_None;
+
+    USART1->BRR = uartBRR;
+    USART1->CTLR1 |= CTLR1_UE_Set;
 }
 
 #ifdef STDOUT_UART
 // For debug writing to the UART.
 int _write(int fd, const char *buf, int size)
 {
-	for(int i = 0; i < size; i++){
-	    while( !(USART1->STATR & USART_FLAG_TC));
-	    USART1->DATAR = *buf++;
-	}
-	return size;
+    for(int i = 0; i < size; i++){
+        while( !(USART1->STATR & USART_FLAG_TC));
+        USART1->DATAR = *buf++;
+    }
+    return size;
 }
 #else
 // For debug writing to the debug interface.
@@ -919,13 +919,14 @@ int _write(int fd, const char *buf, int size)
 	}
 	return size;
 }
-#endif
 
 void SetupDebugPrintf()
 {
-	// Clear out the sending flag.
-	*DMDATA1 = 0x0;
+    // Clear out the sending flag.
+    *DMDATA1 = 0x0;
 }
+
+#endif
 
 
 void DelaySysTick( uint32_t n )

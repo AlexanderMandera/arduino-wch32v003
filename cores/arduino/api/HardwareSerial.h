@@ -92,13 +92,14 @@ class HardwareSerial : public Stream
     int peek(void);
     int read(void);
     void flush(void);
-    size_t write(uint8_t);
-    size_t write(const uint8_t *buffer, size_t size);
-    inline size_t write(const char * buffer, size_t size)
+    int availableForWrite() override;
+    size_t write(uint8_t) override;
+    size_t write(const uint8_t *buffer, size_t size) override;
+    size_t write(const char * buffer, size_t size)
     {
         return write((uint8_t*) buffer, size);
     }
-    inline size_t write(const char * s)
+    size_t write(const char * s)
     {
         return write((uint8_t*) s, strlen(s));
     }
@@ -124,4 +125,4 @@ class HardwareSerial : public Stream
 // XXX: Are we keeping the serialEvent API?
 extern void serialEventRun(void) __attribute__((weak));
 
-extern HardwareSerial Serial;
+extern HardwareSerial Serial0;

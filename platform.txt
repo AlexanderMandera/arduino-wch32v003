@@ -25,7 +25,7 @@ compiler.c.elf.flags=-Wl,--gc-sections {compiler.warning_flags} -Wl,--as-needed 
 compiler.S.cmd={build.crossprefix}g++
 compiler.S.flags=-c -x assembler-with-cpp -march=rv32ec -misa-spec=2.2 -mabi=ilp32e
 compiler.cpp.cmd={build.crossprefix}g++
-compiler.cpp.flags=-g -Os -flto -ffunction-sections -static-libgcc -lgcc -march=rv32ec -misa-spec=2.2 -mabi=ilp32e -I/usr/include/newlib -nostdlib -DTINYVECTOR -fno-rtti
+compiler.cpp.flags=-g -Os -flto -ffunction-sections -static-libgcc -lgcc -march=rv32ec -misa-spec=2.2 -mabi=ilp32e -I/usr/include/newlib -nostdlib -DTINYVECTOR -fno-rtti -fdump-lang-class
 compiler.ar.cmd={build.crossprefix}ar
 compiler.ar.flags=rcs
 compiler.objcopy.cmd=

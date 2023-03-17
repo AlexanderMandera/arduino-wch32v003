@@ -8,6 +8,8 @@ u8 rxBuffer[RX_BUFFER_SIZE] = {0};
 u8 rxBufferHead = 0;
 u8 rxBufferTail = 0;
 
+HardwareSerial Serial0;
+
 void HardwareSerial::begin(unsigned long baud, uint16_t config) {
     // Hardware Serial Pins D5 / D6
     RCC->APB2PCENR |= RCC_APB2Periph_GPIOD | RCC_APB2Periph_USART1; // Enable UART
@@ -57,6 +59,10 @@ int HardwareSerial::read() {
 }
 
 void HardwareSerial::flush() {
+}
+
+int HardwareSerial::availableForWrite() {
+    return 0;
 }
 
 size_t HardwareSerial::write(uint8_t c) {

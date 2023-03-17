@@ -28,9 +28,6 @@
 #define     __O     volatile                  /*!< defines 'write only' permissions     */
 #define     __IO    volatile                  /*!< defines 'read / write' permissions   */
 
-
-
-
 /********************************** (C) COPYRIGHT  *******************************
  * File Name          : ch32v00x.h
  * Author             : WCH

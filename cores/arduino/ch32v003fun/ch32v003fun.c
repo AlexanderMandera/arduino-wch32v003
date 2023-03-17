@@ -11,6 +11,7 @@
 #include <limits.h>
 #include <stdint.h>
 #include <ch32v003fun.h>
+#include "api/Common.h"
 
 int errno;
 int _write(int fd, const char *buf, int size);
@@ -711,6 +712,8 @@ void TIM2_IRQHandler( void )             __attribute__((section(".text.vector_ha
 void InterruptVector()         __attribute__((naked)) __attribute((section(".init"))) __attribute((weak,alias("InterruptVectorDefault")));
 void InterruptVectorDefault()  __attribute__((naked)) __attribute((section(".init")));
 
+void __libc_init_array (void);
+void __libc_fini_array (void);
 
 void InterruptVectorDefault()
 {
@@ -798,6 +801,15 @@ asm volatile(
 	addi a1, a1, 4\n\
 	bne a1, a2, 1b\n\
 2:\n" );
+
+    asm volatile(
+            "la a0, %0 \n\t"      // Load address of __libc_fini_array into a0 register
+            "call %1 \n\t"        // Call atexit function
+            "call %2 \n\t"        // Call __libc_init_array function
+            :
+            : "i" (__libc_fini_array), "i" (atexit), "i" (__libc_init_array)
+            : "a0"
+            );
 
 	// set mepc to be main as the root app.
 asm volatile(
@@ -937,5 +949,48 @@ void DelaySysTick( uint32_t n )
     SysTick->CTLR |=(1 << 0);
     while(!(SysTick->SR & (1 << 0)));
     SysTick->CTLR &= ~(1 << 0);
+}
+
+void _fini(){}
+void _init(){}
+
+/* From newlib */
+
+/* These magic symbols are provided by the linker.  */
+extern void (*__preinit_array_start []) (void) __attribute__((weak));
+extern void (*__preinit_array_end []) (void) __attribute__((weak));
+extern void (*__init_array_start []) (void) __attribute__((weak));
+extern void (*__init_array_end []) (void) __attribute__((weak));
+
+void
+__libc_init_array (void)
+{
+    size_t count;
+    size_t i;
+
+    count = __preinit_array_end - __preinit_array_start;
+    for (i = 0; i < count; i++)
+        __preinit_array_start[i] ();
+
+    _init ();
+
+    count = __init_array_end - __init_array_start;
+    for (i = 0; i < count; i++)
+        __init_array_start[i] ();
+}
+
+extern void (*__fini_array_start []) (void) __attribute__((weak));
+extern void (*__fini_array_end []) (void) __attribute__((weak));
+
+void __libc_fini_array (void)
+{
+    size_t count;
+    size_t i;
+
+    count = __fini_array_end - __fini_array_start;
+    for (i = count; i > 0; i--)
+        __fini_array_start[i-1] ();
+
+    _fini ();
 }
 

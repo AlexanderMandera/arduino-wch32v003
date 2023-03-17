@@ -84,7 +84,7 @@ recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} -DARDUIN
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
 
 ## Preprocess linker script
-recipe.hooks.linking.prelink.1.pattern="{compiler.path}{compiler.c.elf.cmd}" -E -P -x c {build.extra_ldflags} "{build.core.path}/ch32v003fun/ch32v003fun.ld" -o "{build.path}/build.ldscript"
+recipe.hooks.linking.prelink.1.pattern="{compiler.path}{compiler.c.elf.cmd}" -E -P -x c {build.extra_ldflags} "{build.core.path}/ch32v003fun/ch32v003fun-stack.ld" -o "{build.path}/build.ldscript"
 
 ## Combine gc-sections, archives, and objects
 recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" "-L{build.path}" {object_files} "-T{build.path}/build.ldscript" -Wl,--whole-archive "{build.path}/{archive_file}" {compiler.wch} -Wl,--no-whole-archive -o "{build.path}/{build.project_name}.elf" -Wl,--gc-sections -fno-rtti -march=rv32ec -misa-spec=2.2 -mabi=ilp32e -I/usr/include/newlib -nostdlib -static-libgcc -lgcc

@@ -65,6 +65,16 @@ size_t HardwareSerial::write(uint8_t c) {
     return 1;
 }
 
+size_t HardwareSerial::write(const uint8_t *buffer, size_t size)
+{
+    size_t n = 0;
+    while (size--) {
+        if (write(*buffer++)) n++;
+        else break;
+    }
+    return n;
+}
+
 HardwareSerial::operator bool() {
     return true;
 }

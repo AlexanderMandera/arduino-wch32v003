@@ -88,9 +88,9 @@ class HardwareSerial : public Stream
     void begin(unsigned long);
     void begin(unsigned long baudrate, uint16_t config);
     void end();
-    int available(void);
-    int peek(void);
-    int read(void);
+    int available(void) override;
+    int peek(void) override;
+    int read(void) override;
     void flush(void);
     int availableForWrite() override;
     size_t write(uint8_t) override;
@@ -99,9 +99,9 @@ class HardwareSerial : public Stream
     {
         return write((uint8_t*) buffer, size);
     }
-    size_t write(const char * s)
+    size_t write(const char *str)
     {
-        return write((uint8_t*) s, strlen(s));
+        return write((uint8_t*) str, strlen(str));
     }
     inline size_t write(unsigned long n)
     {
@@ -125,4 +125,4 @@ class HardwareSerial : public Stream
 // XXX: Are we keeping the serialEvent API?
 extern void serialEventRun(void) __attribute__((weak));
 
-extern HardwareSerial Serial0;
+extern HardwareSerial Serial;

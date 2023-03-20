@@ -803,12 +803,10 @@ asm volatile(
 2:\n" );
 
     asm volatile(
-            "la a0, %0 \n\t"      // Load address of __libc_fini_array into a0 register
-            "call %1 \n\t"        // Call atexit function
-            "call %2 \n\t"        // Call __libc_init_array function
+            "call %0 \n\t"        // Call __libc_init_array function
             :
-            : "i" (__libc_fini_array), "i" (atexit), "i" (__libc_init_array)
-            : "a0"
+            : "i" (__libc_init_array)
+            :
             );
 
 	// set mepc to be main as the root app.

@@ -44,3 +44,10 @@ int main()
 	return 0;
 }
 
+extern "C" void NMI_Handler(void) {}
+extern "C" void HardFault_Handler(void)
+{
+    while (1)
+    {
+    }
+}

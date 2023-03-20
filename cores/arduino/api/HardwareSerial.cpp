@@ -3,12 +3,12 @@
 
 HardwareSerial Serial;
 
+extern "C" {
 #define RX_BUFFER_SIZE 100
 u8 rxBuffer[RX_BUFFER_SIZE] = {0};
-u8 rxBufferHead = 0;
-u8 rxBufferTail = 0;
-
-HardwareSerial Serial0;
+volatile u8 rxBufferHead = 0;
+volatile u8 rxBufferTail = 0;
+}
 
 void HardwareSerial::begin(unsigned long baud, uint16_t config) {
     // Hardware Serial Pins D5 / D6
@@ -19,16 +19,19 @@ void HardwareSerial::begin(unsigned long baud, uint16_t config) {
     GPIOD->CFGLR &= ~(0xf<<(4*6));
     GPIOD->CFGLR |= (GPIO_CNF_IN_FLOATING)<<(4*6);
 
-    USART1->CTLR1 = USART_WordLength_8b | USART_Parity_No | USART_Mode_Tx;
+    USART1->CTLR1 = USART_WordLength_8b | USART_Parity_No | USART_Mode_Rx | USART_Mode_Tx;
     USART1->CTLR2 = USART_StopBits_1;
     USART1->CTLR3 = USART_HardwareFlowControl_None;
 
-    USART1->BRR = UART_BRR;
-    //USART1->CTLR1 |= USART_FLAG_RXNE;
+    // Set Baudrate
+    uint32_t integerDivider = ((25 * APB_CLOCK)) / (OVER8DIV * baud);
+    uint32_t fractionalDivider = integerDivider % 100;
+
+    USART1->BRR = ((integerDivider / 100) << 4) | (((fractionalDivider * (OVER8DIV * 2) + 50) / 100) & 7);
 
     // Enable Interrupt
-    //NVIC->IPRIOR[USART1_IRQn] = (0 << 7) | 0x05;
-    //NVIC->IENR[USART1_IRQn >> 0x05] = 1 << (USART1_IRQn & 0x1F);
+    USART1->CTLR1 |= USART_FLAG_RXNE;
+    NVIC_EnableIRQ(USART1_IRQn);
 
     // Enable UART
     USART1->CTLR1 |= CTLR1_UE_Set;
@@ -51,18 +54,23 @@ int HardwareSerial::peek() {
 }
 
 int HardwareSerial::read() {
+    if(rxBufferHead == rxBufferTail) return -1;
+
+    uint8_t c = rxBuffer[rxBufferHead];
+
     rxBufferHead = (rxBufferHead + 1) % RX_BUFFER_SIZE;
     if(rxBufferHead != rxBufferTail) {
         USART1->CTLR1 |= USART_FLAG_RXNE;
     }
-    return rxBuffer[rxBufferHead];
+
+    return c;
 }
 
 void HardwareSerial::flush() {
 }
 
 int HardwareSerial::availableForWrite() {
-    return 0;
+    return USART1->CTLR1 & CTLR1_UE_Set;
 }
 
 size_t HardwareSerial::write(uint8_t c) {
@@ -82,13 +90,16 @@ size_t HardwareSerial::write(const uint8_t *buffer, size_t size)
 }
 
 HardwareSerial::operator bool() {
-    return true;
+    return availableForWrite();
 }
 
 // Removed IRQ handler for testing
-/*void USART1_IRQHandler() {
+extern "C" void USART1_IRQHandler( void ) __attribute__((interrupt));
+extern "C" void USART1_IRQHandler(void) {
     if(USART1->STATR & USART_FLAG_RXNE) {
         // Write into buffer
+        rxBuffer[rxBufferTail] = USART1->DATAR & (uint16_t)0x01FF;
+
         rxBufferTail = (rxBufferTail + 1) % RX_BUFFER_SIZE;
 
         if(rxBufferTail == rxBufferHead) {
@@ -96,7 +107,5 @@ HardwareSerial::operator bool() {
             USART1->CTLR1 &= ~USART_FLAG_RXNE;
             return;
         }
-
-        rxBuffer[rxBufferTail] = USART1->DATAR & (uint16_t)0x01FF;
     }
-}*/
+}

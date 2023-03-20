@@ -30,12 +30,10 @@
 #include "IPAddress.h"
 #include "Print.h"
 #include "Printable.h"
-#include "PluggableUSB.h"
 #include "Server.h"
 #include "String.h"
 #include "Stream.h"
 #include "Udp.h"
-#include "USBAPI.h"
 #include "WCharacter.h"
 #include "HardwareSerial.h"
 #endif

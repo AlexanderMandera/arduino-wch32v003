@@ -111,7 +111,7 @@ void i2c_read(uint8_t address, uint8_t *data, uint8_t length) {
     while (!i2c_check_event(I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
 
     while(length) {
-        if(!i2c_get_flag_status(I2C1, I2C_FLAG_RXNE)) {
+        if(i2c_get_flag_status(I2C1, I2C_FLAG_RXNE)) {
             *data++ = i2c_receive_data();
             length--;
         }

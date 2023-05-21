@@ -1,0 +1,7 @@
+{
+    "description": "Arduino Core for CH32V003 RISC-V microcontroller",
+    "name": "framework-arduinoch32v003",
+    "system": "all",
+    "url": "https://github.com/AlexanderMandera/arduino-wch32v003",
+    "version": "0.0.0"
+}

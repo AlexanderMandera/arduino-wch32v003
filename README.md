@@ -55,7 +55,13 @@ It is only tested in Windows for now, but will also be developed for Linux and m
 
 ## Installation
 
-Put this repository inside the `hardware/wch` folder of your Arduino installation (preferably inside the sketchbook folder for now).
+Clone this repository into the `hardware/wch` folder of your Arduino installation (preferably inside the sketchbook folder for now).
+
+Use `git submodule update --init` to get the `ch32v003fun` submodule.
+
+If you are developing inside this core before compiling any sketch,
+use the `copy_sources.bat` or `copy_sources.sh` script inside the `misc` folder to copy the ch32v003 sources.
+This script is called on every compilation inside Arduino.
 
 ## Licensing and Credits
 

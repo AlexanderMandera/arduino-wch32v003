@@ -2,3 +2,6 @@ CMakeLists.txt
 cmake-build-debug
 .idea/
 examples/**/build
+
+# Copied by script
+cores/arduino/ch32v003fun

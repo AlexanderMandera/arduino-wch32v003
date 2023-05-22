@@ -4,7 +4,7 @@ name=WCH CH32V003 Boards
 version=0.0.1
 
 # Tools
-tools.minichlink.path={runtime.platform.path}/tools/minichlink
+tools.minichlink.path={runtime.platform.path}/ch32v003fun/minichlink
 tools.minichlink.cmd=minichlink
 tools.minichlink.cmd.windows=minichlink.exe
 
@@ -19,13 +19,13 @@ compiler.warning_flags.all=-Wall -Wextra
 toolchain.path=C:\SysGCC\xpack-riscv-none-elf-gcc-12.2.0-3\
 compiler.path={toolchain.path}bin\
 compiler.c.cmd={build.crossprefix}gcc
-compiler.c.flags=-g -Os -flto -ffunction-sections -fdata-sections -static-libgcc -lgcc -march=rv32ec -misa-spec=2.2 -mabi=ilp32e -I/usr/include/newlib -nostdlib -DTINYVECTOR
+compiler.c.flags=-g -Os -flto -ffunction-sections -fdata-sections -static-libgcc -lgcc -march=rv32ec -mabi=ilp32e -I/usr/include/newlib -nostdlib -DTINYVECTOR
 compiler.c.elf.cmd={build.crossprefix}g++
-compiler.c.elf.flags=-Wl,--gc-sections {compiler.warning_flags} -Wl,--as-needed -march=rv32ec -misa-spec=2.2 -mabi=ilp32e
+compiler.c.elf.flags=-Wl,--gc-sections {compiler.warning_flags} -Wl,--as-needed -march=rv32ec -mabi=ilp32e
 compiler.S.cmd={build.crossprefix}g++
-compiler.S.flags=-c -x assembler-with-cpp -march=rv32ec -misa-spec=2.2 -mabi=ilp32e
+compiler.S.flags=-c -x assembler-with-cpp -march=rv32ec -mabi=ilp32e
 compiler.cpp.cmd={build.crossprefix}g++
-compiler.cpp.flags=-g -Os -flto -ffunction-sections -fdata-sections -static-libgcc -lgcc -march=rv32ec -misa-spec=2.2 -mabi=ilp32e -I/usr/include/newlib -nostdlib -DTINYVECTOR -fno-rtti -fdump-lang-class
+compiler.cpp.flags=-g -Os -flto -ffunction-sections -fdata-sections -static-libgcc -lgcc -march=rv32ec -mabi=ilp32e -I/usr/include/newlib -nostdlib -DTINYVECTOR -fno-rtti -fdump-lang-class
 compiler.ar.cmd={build.crossprefix}ar
 compiler.ar.flags=rcs
 compiler.objcopy.cmd=
@@ -84,10 +84,10 @@ recipe.S.o.pattern="{compiler.path}{compiler.S.cmd}" {compiler.S.flags} -DARDUIN
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
 
 ## Preprocess linker script
-recipe.hooks.linking.prelink.1.pattern="{compiler.path}{compiler.c.elf.cmd}" -E -P -x c {build.extra_ldflags} "{build.core.path}/ch32v003fun/ch32v003fun-stack.ld" -o "{build.path}/build.ldscript"
+recipe.hooks.linking.prelink.1.pattern="{compiler.path}{compiler.c.elf.cmd}" -E -P -x c {build.extra_ldflags} "{build.core.path}/ch32v003fun/ch32v003fun.ld" -o "{build.path}/build.ldscript"
 
 ## Combine gc-sections, archives, and objects
-recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" "-L{build.path}" {object_files} "-T{build.path}/build.ldscript" -Wl,--whole-archive "{build.path}/{archive_file}" {compiler.wch} -Wl,--no-whole-archive -o "{build.path}/{build.project_name}.elf" -Wl,--gc-sections -flto -ffunction-sections -fdata-sections -fno-rtti -march=rv32ec -misa-spec=2.2 -mabi=ilp32e -I/usr/include/newlib -nostdlib -static-libgcc -lgcc
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" "-L{build.path}" {object_files} "-T{build.path}/build.ldscript" -Wl,--whole-archive "{build.path}/{archive_file}" {compiler.wch} -Wl,--no-whole-archive -o "{build.path}/{build.project_name}.elf" -Wl,--gc-sections -flto -ffunction-sections -fdata-sections -fno-rtti -march=rv32ec -mabi=ilp32e -I/usr/include/newlib -nostdlib -static-libgcc -lgcc
 
 ## Create eeprom
 recipe.objcopy.eep.pattern=
@@ -106,6 +106,10 @@ recipe.size.regex=^(?:\.data|\.text|\.rodata)\S*?\s+([0-9]+).*
 ## Save hex
 recipe.output.tmp_file={build.project_name}.bin
 recipe.output.save_file={build.project_name}.{build.variant}.bin
+
+# Copy ch32v003fun source files into core before building
+recipe.hooks.prebuild.1.pattern="{runtime.platform.path}/misc/copy_sources.sh"
+recipe.hooks.prebuild.1.pattern.windows="{runtime.platform.path}/misc/copy_sources.bat"
 
 # MiniCHLink
 tools.minichlink.upload.protocol=usb

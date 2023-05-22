@@ -19,13 +19,13 @@ compiler.warning_flags.all=-Wall -Wextra
 toolchain.path=C:\SysGCC\xpack-riscv-none-elf-gcc-12.2.0-3\
 compiler.path={toolchain.path}bin\
 compiler.c.cmd={build.crossprefix}gcc
-compiler.c.flags=-g -Os -flto -ffunction-sections -fdata-sections -static-libgcc -lgcc -march=rv32ec -mabi=ilp32e -I/usr/include/newlib -nostdlib -DTINYVECTOR
+compiler.c.flags=-g -Os -flto -ffunction-sections -fdata-sections -static-libgcc -lgcc -march=rv32ec -mabi=ilp32e -I/usr/include/newlib -nostdlib -DTINYVECTOR -DCPLUSPLUS
 compiler.c.elf.cmd={build.crossprefix}g++
 compiler.c.elf.flags=-Wl,--gc-sections {compiler.warning_flags} -Wl,--as-needed -march=rv32ec -mabi=ilp32e
 compiler.S.cmd={build.crossprefix}g++
 compiler.S.flags=-c -x assembler-with-cpp -march=rv32ec -mabi=ilp32e
 compiler.cpp.cmd={build.crossprefix}g++
-compiler.cpp.flags=-g -Os -flto -ffunction-sections -fdata-sections -static-libgcc -lgcc -march=rv32ec -mabi=ilp32e -I/usr/include/newlib -nostdlib -DTINYVECTOR -fno-rtti -fdump-lang-class
+compiler.cpp.flags=-g -Os -flto -ffunction-sections -fdata-sections -static-libgcc -lgcc -march=rv32ec -mabi=ilp32e -I/usr/include/newlib -nostdlib -DTINYVECTOR -fno-rtti -DCPLUSPLUS
 compiler.ar.cmd={build.crossprefix}ar
 compiler.ar.flags=rcs
 compiler.objcopy.cmd=

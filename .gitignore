@@ -1,6 +1,7 @@
 CMakeLists.txt
 cmake-build-debug
 .idea/
+.vscode/
 examples/**/build
 
 # Copied by script

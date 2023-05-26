@@ -39,14 +39,17 @@ It is only tested in Windows for now, but will also be developed for Linux and m
 
 **What does work:**
 * `delay`/`delayMicroseconds`
+* `millis()` / `micros()` (untested)
 * Digital IO: `pinMode`/`digitalWrite`/`digitalRead`
+* USART implementation
 
 **Work in Progress:**
-* USART implementation (exists, but not tested)
+* I2C implementation (currently no Wire implementation)
 
 **To be Done:**
-* Several peripherals (like ADC, SPI, I2C...)
+* Several peripherals (ADC, SPI...)
 * Arduino IDE packaging
+* and much more...
 
 ## Prerequisites
 

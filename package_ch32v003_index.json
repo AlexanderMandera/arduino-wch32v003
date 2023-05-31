@@ -14,10 +14,10 @@
                     "architecture": "wch",
                     "version": "0.0.1",
                     "category": "Contributed",
-                    "url": "http://192.168.0.5/arduino-wch32v003.zip",
-                    "archiveFileName": "arduino-wch32v003.zip",
-                    "checksum": "SHA-256:361364cc9d26dbf004227430a6c6a75fbbb6ba05905c133825b24545cec3f39a",
-                    "size": "15320148",
+                    "url": "https://github.com/AlexanderMandera/arduino-wch32v003/releases/download/v0.0.1-alpha/arduino-wch32v003-v0.0.1-alpha.tar.gz",
+                    "archiveFileName": "arduino-wch32v003.tar.gz",
+                    "checksum": "SHA-256:6b8093582183f112ebd310d1ceed0ce4c42a6df50727789a6531ca89e1842891",
+                    "size": "2187326",
                     "help": {
                         "online": "https://github.com/AlexanderMandera/arduino-wch32v003"
                     },

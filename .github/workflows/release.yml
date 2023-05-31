@@ -42,8 +42,7 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
-          name: Release ${{ github.ref }}
+          tag_name: ${{steps.get_tag.outputs.tag}}
           body: |
             **Arduino Core for CH32V003**
 

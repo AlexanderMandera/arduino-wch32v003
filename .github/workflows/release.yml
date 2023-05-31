@@ -1,0 +1,70 @@
+on:
+  push:
+    tags:
+      - 'v*'
+
+name: Create Release
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Extract Tag
+        id: get_tag
+        run: echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
+      - name: Set filenames
+        id: filenames
+        run: |
+          echo "::set-output name=bundle::arduino-wch32v003-${{steps.get_tag.outputs.tag}}.tar.gz"
+          echo "::set-output name=sha::arduino-wch32v003-${{steps.get_tag.outputs.tag}}.tar.gz.sha"
+      - name: Create Arduino Distribution
+        run: |
+          set -x
+          # Fetch submodules
+          git submodule update --init
+          
+          # Create bundle
+          NAME="arduino_wch32v003_${{steps.get_tag.outputs.tag}}"
+          mkdir "/tmp/$NAME"
+          cp -r * "/tmp/$NAME"
+          mv "/tmp/$NAME" .
+          
+          # Cleanup
+          find "$NAME" -name '.git*' -exec rm -rv {} \; || true
+          
+          tar -czf ${{steps.filenames.outputs.bundle}} "$NAME"
+          sha256sum ${{steps.filenames.outputs.bundle}} > ${{steps.filenames.outputs.sha}}
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            **Arduino Core for CH32V003**
+
+            ${{steps.filenames.outputs.src}} contains the bundle file used for the board manager inside Arduino IDE
+          draft: false
+          prerelease: true
+      - name: Upload Bundle
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./${{steps.filenames.outputs.bundle}}
+          asset_name: ${{steps.filenames.outputs.bundle}}
+          asset_content_type: application/tar.gz
+      - name: Upload Bundle Checksum
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./${{steps.filenames.outputs.sha}}
+          asset_name: ${{steps.filenames.outputs.sha}}
+          asset_content_type: text/plain

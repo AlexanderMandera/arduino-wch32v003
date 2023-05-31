@@ -40,33 +40,16 @@ jobs:
           sha256sum ${{steps.filenames.outputs.bundle}} > ${{steps.filenames.outputs.sha}}
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          name: Release ${{ github.ref }}
           body: |
             **Arduino Core for CH32V003**
 
             `${{steps.filenames.outputs.bundle}}` contains the bundle file used for the board manager inside Arduino IDE.
           draft: true
           prerelease: true
-      - name: Upload Bundle
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{steps.filenames.outputs.bundle}}
-          asset_name: ${{steps.filenames.outputs.bundle}}
-          asset_content_type: application/tar.gz
-      - name: Upload Bundle Checksum
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{steps.filenames.outputs.sha}}
-          asset_name: ${{steps.filenames.outputs.sha}}
-          asset_content_type: text/plain
+          files: |
+            ${{steps.filenames.outputs.bundle}}
+            ${{steps.filenames.outputs.sha}}

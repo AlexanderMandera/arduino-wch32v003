@@ -49,8 +49,8 @@ jobs:
           body: |
             **Arduino Core for CH32V003**
 
-            ${{steps.filenames.outputs.bundle}} contains the bundle file used for the board manager inside Arduino IDE
-          draft: false
+            `${{steps.filenames.outputs.bundle}}` contains the bundle file used for the board manager inside Arduino IDE.
+          draft: true
           prerelease: true
       - name: Upload Bundle
         uses: actions/upload-release-asset@v1.0.1

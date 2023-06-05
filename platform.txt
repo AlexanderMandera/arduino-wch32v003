@@ -4,7 +4,7 @@ name=WCH Boards
 version=0.0.1
 
 # Tools
-tools.minichlink.path={runtime.platform.path}/ch32v003fun/minichlink
+tools.minichlink.path={runtime.tools.minichlink.path}
 tools.minichlink.cmd=minichlink
 tools.minichlink.cmd.windows=minichlink.exe
 
@@ -105,10 +105,6 @@ recipe.size.regex=^(?:\.data|\.text|\.rodata)\S*?\s+([0-9]+).*
 ## Save hex
 recipe.output.tmp_file={build.project_name}.bin
 recipe.output.save_file={build.project_name}.{build.variant}.bin
-
-# Copy ch32v003fun source files into core before building
-recipe.hooks.prebuild.1.pattern="{runtime.platform.path}/misc/copy_sources.sh"
-recipe.hooks.prebuild.1.pattern.windows="{runtime.platform.path}/misc/copy_sources.bat"
 
 # MiniCHLink
 tools.minichlink.upload.protocol=usb

@@ -86,8 +86,14 @@
               "archiveFileName": "xpack-riscv-none-elf-gcc-12.2.0-3-win32-x64.zip",
               "checksum": "SHA-256:ced0ba39ed89048f176c9c93174b170443d2dbe669e9a6ddb92c3cfde689578e",
               "size": "519625553"
+            },
+            {
+              "host": "i686-mingw32",
+              "url": "https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v12.2.0-3/xpack-riscv-none-elf-gcc-12.2.0-3-win32-x64.zip",
+              "archiveFileName": "xpack-riscv-none-elf-gcc-12.2.0-3-win32-x64.zip",
+              "checksum": "SHA-256:ced0ba39ed89048f176c9c93174b170443d2dbe669e9a6ddb92c3cfde689578e",
+              "size": "519625553"
             }
-
           ]
         },
         {
@@ -135,8 +141,14 @@
               "archiveFileName": "minichlink_windows.zip",
               "checksum": "SHA-256:c11f525f8d4dcfaef090788a7da3a1cc94f855c330eb8907b0ac9e43dade5b1d",
               "size": "117725"
+            },
+            {
+              "host": "i686-mingw32",
+              "url": "https://github.com/AlexanderMandera/minichlink-binaries/releases/download/1.0.0/minichlink_windows.zip",
+              "archiveFileName": "minichlink_windows.zip",
+              "checksum": "SHA-256:c11f525f8d4dcfaef090788a7da3a1cc94f855c330eb8907b0ac9e43dade5b1d",
+              "size": "117725"
             }
-
           ]
         }
       ]

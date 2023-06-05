@@ -31,53 +31,49 @@ extern "C" {
 #define SYSTICK_CTLR_SWIE (1<<31)
 
 volatile uint32_t systick_counter;
-uint32_t sysclock_div_1000 = 0;
-uint32_t sysclock_div_1000000 = 0;
 
 unsigned long millis()
 {
-    return systick_counter;
+	return systick_counter;
 }
 
-unsigned long micros() 
+unsigned long micros()
 {
-    uint32_t currentSysTick = systick_counter;
-    uint32_t ticksDifference = (SysTick->CNT + sysclock_div_1000) - SysTick->CMP;
+	uint32_t currentSysTick = systick_counter;
+	uint32_t ticksDifference = (SysTick->CNT + DELAY_MS_TIME) - SysTick->CMP;
 
-    return currentSysTick * 1000u + ticksDifference / sysclock_div_1000000;
+	return currentSysTick * 1000u + ticksDifference / DELAY_US_TIME;
 }
 
 void delay(unsigned long ms)
 {
-    Delay_Ms(ms);
+	Delay_Ms(ms);
 }
 
 void delayMicroseconds(unsigned int us)
 {
-    Delay_Us(us);
+	Delay_Us(us);
 }
 
 void init( void )
 {
-    SystemInit48HSI();
+	SystemInit48HSI();
 
-    sysclock_div_1000 = SYSTEM_CORE_CLOCK / 1000;
-    sysclock_div_1000000 = SYSTEM_CORE_CLOCK / 1000000;
+	SysTick->CTLR = 0;
+	NVIC_EnableIRQ(SysTicK_IRQn);
 
-    SysTick->CTLR = 0;
-    NVIC_EnableIRQ(SysTicK_IRQn);
-    SysTick->CMP = (sysclock_div_1000 / 1000) - 1;
-    SysTick->CNT = 0;
+	SysTick->CMP = DELAY_MS_TIME - 1;
+	SysTick->CNT = 0;
 	systick_counter = 0;
 
-    SysTick->CTLR = SYSTICK_CTLR_STE | SYSTICK_CTLR_STIE |
+	SysTick->CTLR = SYSTICK_CTLR_STE | SYSTICK_CTLR_STIE |
 					SYSTICK_CTLR_STCLK;
 }
 
 void SysTick_Handler(void) __attribute__((interrupt));
 void SysTick_Handler(void)
 {
-	SysTick->CMP += (SYSTEM_CORE_CLOCK/1000);
+	SysTick->CMP += DELAY_MS_TIME;
 	SysTick->SR = 0;
 	systick_counter++;
 }

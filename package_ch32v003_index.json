@@ -12,12 +12,12 @@
         {
           "name": "WCH Boards",
           "architecture": "wch",
-          "version": "0.0.1",
+          "version": "0.0.1a",
           "category": "Contributed",
-          "url": "https://github.com/AlexanderMandera/arduino-wch32v003/releases/download/v0.0.1-alpha/arduino-wch32v003-v0.0.1-alpha.tar.gz",
+          "url": "https://github.com/AlexanderMandera/arduino-wch32v003/releases/download/v0.0.1a-alpha/arduino-wch32v003-v0.0.1a-alpha.tar.gz",
           "archiveFileName": "arduino-wch32v003.tar.gz",
-          "checksum": "SHA-256:5bba5a999e17c72418d41bcfeef4cc3e3969b1907efda8b0c860e08516c3bd53",
-          "size": "100433",
+          "checksum": "SHA-256:cc6420f9b366010bc5dc0f1d5509e6701d0f8b4dce251a80a57d15d0a35eb238",
+          "size": "100317",
           "help": {
             "online": "https://github.com/AlexanderMandera/arduino-wch32v003"
           },

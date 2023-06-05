@@ -27,6 +27,10 @@ jobs:
           # Fetch submodules
           git submodule update --init
           
+          # Copy ch32v003 sources and remove submodule
+          cp -r ch32v003fun/ch32v003fun/* cores/arduino
+          rm -rf ch32v003fun
+          
           # Create bundle
           NAME="arduino_wch32v003_${{steps.get_tag.outputs.tag}}"
           mkdir "/tmp/$NAME"

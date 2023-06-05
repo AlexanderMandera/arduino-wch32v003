@@ -12,7 +12,7 @@
         {
           "name": "WCH Boards",
           "architecture": "wch",
-          "version": "0.0.1a",
+          "version": "0.0.2",
           "category": "Contributed",
           "url": "https://github.com/AlexanderMandera/arduino-wch32v003/releases/download/v0.0.1a-alpha/arduino-wch32v003-v0.0.1a-alpha.tar.gz",
           "archiveFileName": "arduino-wch32v003.tar.gz",

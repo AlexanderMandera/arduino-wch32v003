@@ -104,35 +104,35 @@
               "host": "x86_64-pc-linux-gnu",
               "url": "https://github.com/AlexanderMandera/minichlink-binaries/releases/download/1.0.0/minichlink_linux_amd64.zip",
               "archiveFileName": "minichlink_linux_amd64.zip",
-              "checksum": "SHA-256:6356a07fad4a6fb73e2dc1f6e55ed9c64d1ed6769b38436e1a773e1d94c659d5",
+              "checksum": "SHA-256:411f51e8cc52fe3a29eb8ebdeb9efdb9350cd45aafd0fc4d8c22c7aaec29eaf0",
               "size": "153417"
             },
             {
               "host": "aarch64-linux-gnu",
               "url": "https://github.com/AlexanderMandera/minichlink-binaries/releases/download/1.0.0/minichlink_linux_arm64.zip",
               "archiveFileName": "minichlink_linux_arm64.zip",
-              "checksum": "SHA-256:9c791ee916843c9162199a2592c2033fdde100af6dd8c4e524aeb4781f38cf91",
+              "checksum": "SHA-256:d6b46c45e694b5c2776cc1810ff539d8013bf6576765956e653fe4961bbaa065",
               "size": "150497"
             },
             {
               "host": "arm-linux-gnueabihf",
               "url": "https://github.com/AlexanderMandera/minichlink-binaries/releases/download/1.0.0/minichlink_linux_arm32.zip",
               "archiveFileName": "minichlink_linux_arm32.zip",
-              "checksum": "SHA-256:beca75ab788c67ced564348ee58c32d26a5c7e0671abef281890283dbb579bad",
+              "checksum": "SHA-256:377fe729f53c38d54f7f32404de5d9550ef3504bb23ccdec16fb49a9358c5efd",
               "size": "145961"
             },
             {
               "host": "x86_64-apple-darwin",
               "url": "https://github.com/AlexanderMandera/minichlink-binaries/releases/download/1.0.0/minichlink_macos_amd64.zip",
               "archiveFileName": "minichlink_macos_amd64.zip",
-              "checksum": "SHA-256:63dade3283ec75751ec0bd4e232bddf761f4910acbc08f422b1f2ee76a2da4eb",
+              "checksum": "SHA-256:10b5676ae8c291b783be9f1590375de045fa599121c443fe260ed1b537946b40",
               "size": "30854"
             },
             {
               "host": "arm64-apple-darwin",
               "url": "https://github.com/AlexanderMandera/minichlink-binaries/releases/download/1.0.0/minichlink_macos_arm64.zip",
               "archiveFileName": "minichlink_macos_arm64.zip",
-              "checksum": "SHA-256:14f3c470cf013fcce50ef725c60f0023a6fe4af7ed54b584727f0c3bdf07b88f",
+              "checksum": "SHA-256:55b0291fae9634c718940a95fee2ed96ca980a382915619ba7d326f53d1a91e9",
               "size": "31110"
             },
             {

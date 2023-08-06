@@ -37,6 +37,8 @@ https://alexandermandera.github.io/arduino-wch32v003/package_ch32v003_index.json
 
 Install the "WCH Boards" platform inside the Board Manager.
 
+For Windows users that use the WCH-LinkE programmers, follow the additional steps in the [Wiki](https://github.com/AlexanderMandera/arduino-wch32v003/wiki/Additional-Installation-Steps).
+
 ## State of Development
 
 This core is currently in development and is not prepared to handle

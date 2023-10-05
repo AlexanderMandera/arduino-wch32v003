@@ -2,7 +2,7 @@
 
 This is a new Arduino Core for the CH32V003 series of microcontrollers.
 
-It utilizes some work from [CNLohr/ch32v003fun](https://github.com/CNLohr/ch32v003fun) and the Arduino CH58x Core.
+It is based on the work from [CNLohr/ch32v003fun](https://github.com/CNLohr/ch32v003fun).
 
 
 ## Overview
@@ -29,33 +29,43 @@ CH32V003 series is based on QingKe RISC-V2A core design of industrial-grade gene
 - 1-wire serial debug interface (SDI)
 - Package: TSSOP20, QFN20, SOP16, SOP8
 
+## Installation
+
+Use the following board manager URL under Preferences &rarr; Additional Board Manager URLs to install the core:
+
+https://alexandermandera.github.io/arduino-wch32v003/package_ch32v003_index.json
+
+Install the "WCH Boards" platform inside the Board Manager.
+
+For Windows users that use the WCH-LinkE programmers, follow the additional steps in the [Wiki](https://github.com/AlexanderMandera/arduino-wch32v003/wiki/Additional-Installation-Steps).
+
 ## State of Development
 
-This core is currently in development and not yet ready for general use.
-It is also not prepared for use with the Arduino IDE without installing all requirements manually.
-In the future, the core will be available as a package for the Arduino IDE.
+This core is currently in development and is not prepared to handle
+every aspect that Arduino Core provides. Several peripheral implementations
+are work-in-progress but examples from `ch32v003fun` can always be used inside the Arduino IDE.
 
-It is only tested in Windows for now, but will also be developed for Linux and macOS.
+All major operating systems (Windows, Linux, macOS) for most CPU architectures (amd64, arm64, armhf)
+should be supported.
+
+The version of the Arduino Board Manager package will be updated after major additions or changes
+to the Core which will correspond to the `master` branch.
+Pre-release or untested changes are made inside the `develop` branch.
 
 **What does work:**
 * `delay`/`delayMicroseconds`
+* `millis()` / `micros()` (untested)
 * Digital IO: `pinMode`/`digitalWrite`/`digitalRead`
+* USART implementation
+* I2C Implementation (w/o Wire implementation)
 
 **Work in Progress:**
-* USART implementation (exists, but not tested)
+* I2C `Wire.h` implementation
 
 **To be Done:**
-* Several peripherals (like ADC, SPI, I2C...)
-* Arduino IDE packaging
-
-## Prerequisites
-
-* [xPack GNU RISC-V Embedded GCC v12.2.0-3](https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/)
-  * `toolchain.path` in `platform.txt` must be changed if your path is different
-
-## Installation
-
-Put this repository inside the `hardware/wch` folder of your Arduino installation (preferably inside the sketchbook folder for now).
+* Optimization
+* Several peripherals (ADC, SPI...)
+* and much more...
 
 ## Licensing and Credits
 

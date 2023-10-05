@@ -1,11 +1,11 @@
-wch32v003.name=WCH CH32V003
+wch32v003.name=CH32V003
 wch32v003.build.core=arduino
 wch32v003.build.crossprefix=riscv-none-elf-
-wch32v003.build.variant=WCH32V003
+wch32v003.build.variant=CH32V003
 wch32v003.build.mcu=rv32ec
 wch32v003.build.extra_flags=
 wch32v003.build.architecture=rv32ec
-wch32v003.build.board=WCH32V003
+wch32v003.build.board=CH32V003
 wch32v003.build.ldscript={build.core.path}/ch32v003fun/ch32v003fun.ld
 wch32v003.compiler.wch.arch.define=-DARDUINO_ARCH_WCH32V003
 wch32v003.compiler.wch.includes={build.variant.path}/includes.txt

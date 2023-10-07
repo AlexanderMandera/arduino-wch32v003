@@ -77,11 +77,12 @@ env.Append(
         #"-fwhole-program",
         '-Wl,-Map="%s"' % join("${BUILD_DIR}", "${PROGNAME}.map")
     ],
-
-    LDSCRIPT_PATH=join(FRAMEWORK_DIR, "cores", "arduino", "ch32v003fun", "ch32v003fun-stack.ld"),
+    # no actual GCC preprocessing needed since no macros are used
+    LDSCRIPT_PATH=join(FRAMEWORK_DIR, "ch32v003fun", "ch32v003fun", "ch32v003fun.ld"),
 
     CPPDEFINES= [
-        ("TINYVECTOR"),
+        "TINYVECTOR",
+        "CPLUSPLUS",
         "ARDUINO_ARCH_WCH",
         ("ARDUINO", 10808)
     ],
@@ -103,8 +104,8 @@ env.Append(
         #join(FRAMEWORK_DIR, "cores", "arduino", "api"),
         join(FRAMEWORK_DIR, "cores", "arduino", "api", "deprecated"),
         join(FRAMEWORK_DIR, "cores", "arduino", "api", "deprecated-avr-comp"),
-        join(FRAMEWORK_DIR, "cores", "arduino", "ch32v003fun"),
-        join(FRAMEWORK_DIR, "cores", "hal"),
+        join(FRAMEWORK_DIR, "ch32v003fun", "ch32v003fun"),
+        join(FRAMEWORK_DIR, "cores", "arduino", "hal"),
     ]
 )
 

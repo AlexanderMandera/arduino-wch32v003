@@ -140,5 +140,11 @@ env.BuildSources(
     # get rid of this :(
     "+<*> -<api/IPAddress.cpp>"
 )
+# The "Released" package copies these files into core/arduino, but we use git version
+# so we have to build those manually.
+env.BuildSources(
+    join("$BUILD_DIR", "ch32v003fun"),
+    join(FRAMEWORK_DIR, "ch32v003fun", "ch32v003fun"),
+)
 
 env.Prepend(LIBS=libs)

@@ -17,6 +17,10 @@
 #if !defined(Arduino_h)
 #define Arduino_h
 
+#define SYSTEM_CORE_CLOCK 48000000
+#define APB_CLOCK SYSTEM_CORE_CLOCK
+#define SYSTICK_USE_HCLK
+
 #include "api/ArduinoAPI.h"
 #include <pins_arduino.h>
 #include "ch32v003fun.h"

@@ -1,3 +1,4 @@
+#include "Arduino.h"
 #include "ch32v003fun.h"
 #include "HardwareSerial.h"
 

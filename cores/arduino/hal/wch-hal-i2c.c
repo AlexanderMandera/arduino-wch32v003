@@ -1,3 +1,4 @@
+#include "Arduino.h"
 #include "wch-hal-i2c.h"
 #include "ch32v003fun.h"
 

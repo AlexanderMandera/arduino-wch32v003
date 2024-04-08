@@ -49,7 +49,7 @@ static GPIO_TypeDef* gpioRegister(uint8_t gpio)
 static uint8_t gpioPin(uint8_t gpio, pin_size_t pin)
 {
     if(gpio == 0) {
-        return pin;
+        return pin + 1;
     } else if(gpio == 2) {
         return pin - 2;
     } else {

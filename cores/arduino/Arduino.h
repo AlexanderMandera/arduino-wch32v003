@@ -52,4 +52,7 @@
 void analogReadResolution(int bits);
 void analogWriteResolution(int bits);
 
+#define ADC_CH_REF 0x40 // Vref
+#define ADC_CH_CAL 0x41 // Vcal
+
 #endif
